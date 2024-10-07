@@ -21,8 +21,10 @@ class Order {
 
         $this->Products = $productList;
         $this->CustomerName = $CustomerName;
-        $this->TotalPrice = count(value:$Products*5)
+        $this->TotalPrice = count($productList)*5;
 
+        echo "Commande {$this->Id} créée, d'un montant de {$this->TotalPrice} !";    
     }
 }
 
+$order = new Order('Loïc CAILLÉ', ['Sac', 'Trousseau de clé']);

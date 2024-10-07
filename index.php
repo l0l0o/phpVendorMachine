@@ -40,7 +40,7 @@ class vendorMachine {
         $this -> isOn = false;
         $snackToTake = $this -> dropSnack();
         $moneyToTake = $this -> dropMoney();
-        return "Vous avez chaparder $snackToTake snacks et $moneyToTake euros.";
+        return "Vous avez chapardé $snackToTake snacks et $moneyToTake euros.";
     }
 
     private function dropSnack() {
