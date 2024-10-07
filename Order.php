@@ -15,6 +15,12 @@ class Order {
 
     public function __construct(string $CustomerName, array $productList)
     {
+        if ($CustomerName == 'David Robert') {
+            throw new Error('Le vol n\'est pas la solution.');
+        }
+        if (count($productList)>5){
+            throw new Error('Je sais que c\'est surprenant mais on ne peut pas gérer de commandes de plus de 5 produits.');
+        }
         $this->Status = "CART";
         $this->CreatedAt = new DateTime();
         $this->Id = rand();
@@ -27,4 +33,4 @@ class Order {
     }
 }
 
-$order = new Order('Loïc CAILLÉ', ['Sac', 'Trousseau de clé']);
+$order = new Order('David Robert', ['Sac', 'Trousseau de clé']);
