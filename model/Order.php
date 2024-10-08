@@ -126,16 +126,5 @@ class Order {
         }
         echo "Paiement réussi ! Votre commande est en cours de préparation.";
     }
-
 }
-try {
-    $order = new Order('Stéphanie Lampard', ['Sac', 'Trousseau de clé']);
-    $order->addProduct('Lampe de poche');
-    $order->deleteProduct('Sac');
-    $order->chooseLocationAdress('5 rue pierrot', 'Bordeaux','FRANCE');
-    $order->chooseShippingMethod('CHRONOPOST');
-    $order->payOrder('50');
 
-} catch(Error $error) {
-    echo $error->getMessage();
-}
