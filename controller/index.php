@@ -1,13 +1,7 @@
 <?php
 
-require_once "../model/Order.php";
+//créer un formulaire HTML sur cette page
+//qui permet de créer une commande
+//et envoie les donnees sur un controller
 
-
-try {
-    $order = new Order('Jean Stéphane', ['Sac','Polo','Chemise']);
-    echo '<html><body>Commande créée.<body><html>';
-    require_once '../view/order-created.php';
-} catch (Exception $e) {
-    echo "<html><body><p>" . $e->getMessage() . "</p></body></html>";
-    require_once '../view/order-error.php';
-}
+require_once "../view/home.php";

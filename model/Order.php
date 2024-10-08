@@ -32,10 +32,10 @@ class Order {
     public function __construct(string $CustomerName, array $productList)
     {
         if (array_search("$CustomerName", Order::$BLACKLISTED_CUSTOMERS )) {
-            throw new Error('Le vol n\'est pas la solution.');
+            throw new Exception('Le vol n\'est pas la solution.');
         }
         if (count($productList)> Order::$MAX_PRODUCTS_BY_ORDER){
-            throw new Error('Je sais que c\'est surprenant mais on ne peut pas gérer de commandes de plus de 5 produits.');
+            throw new Exception('Je sais que c\'est surprenant mais on ne peut pas gérer de commandes de plus de 5 produits.');
         }
         $this->Status = Order::$CART_STATUS;
         $this->CreatedAt = new DateTime();
@@ -54,11 +54,11 @@ class Order {
 
     public function addProduct(string $productName) {
         if ($this->Status != Order::$CART_STATUS) {
-            throw new Error("Vous ne pouvez pas passer de commande pour le moment<br>.");
+            throw new Exception("Vous ne pouvez pas passer de commande pour le moment<br>.");
         }
 
         if ((array_search($productName, $this->Products)) == true) {
-            throw new Error("Le produit : {$productName} est déjà dans votre panier.<br>");
+            throw new Exception("Le produit : {$productName} est déjà dans votre panier.<br>");
         }
 
         array_push($this->Products, "{$productName}");
@@ -89,10 +89,10 @@ class Order {
 
     public function chooseLocationAdress($city, $address, $country) {
         if ($this->Status != Order::$CART_STATUS) {
-            throw new Error("Vous ne pouvez pas passer de commande pour le moment<br>.");
+            throw new Exception("Vous ne pouvez pas passer de commande pour le moment<br>.");
         }
         if ((array_search($country, Order::$AUTORIZED_SHIPPING_COUNTRIES)) === false) {
-            throw new Error("Désolé, nos produits sont seulement disponibles en France, en Belgique et au Luxembourg.<br>");
+            throw new Exception("Désolé, nos produits sont seulement disponibles en France, en Belgique et au Luxembourg.<br>");
         }
         $ShippingCity = "$city";
         $ShippingAddress = "$address";
@@ -103,10 +103,10 @@ class Order {
 
     public function chooseShippingMethod($shippingMethod) {
         if(!in_array($shippingMethod, Order::$AVAILABLE_SHIPPING_METHODS)){
-            throw new Error('Veuillez choisir une méthode de livraison.<br><br>');
+            throw new Exception('Veuillez choisir une méthode de livraison.<br><br>');
         }
         if($this->ShippingAddress == NULL) {
-            throw new Error("Veuillez renseigner votre adresse.<br><br>");
+            throw new Exception("Veuillez renseigner votre adresse.<br><br>");
         }
         $this->ShippingMethod = $shippingMethod;
         echo "Méthode de livraison : {$this->ShippingMethod}<br>";
@@ -119,10 +119,10 @@ class Order {
 
     public function payOrder($amount) {
         if($this->ShippingAddress == NULL) {
-            throw new Error("Veuillez renseigner votre adresse.<br><br>");
+            throw new Exception("Veuillez renseigner votre adresse.<br><br>");
         }
         if ($amount<$this->TotalPrice) {
-            throw new Error("Votre paiement a été refusé.");
+            throw new Exception("Votre paiement a été refusé.");
         }
         echo "Paiement réussi ! Votre commande est en cours de préparation.";
     }
