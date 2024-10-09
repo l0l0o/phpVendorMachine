@@ -15,20 +15,24 @@
 		<form method="POST" action="../controller/create-order.php">
 
 			<label for="customerName">Nom du client</label>
-			<input type="text" id="customerName" name="customerName" required>
 			<br>
+			<input type="text" id="customerName" name="customerName" required>
+
+			<br><br>
 
 			<label for="product">Produit</label>
-
-			<select id="product" name="products[]" multiple>
+			<br>
+			<select id="products[]" name="products[]" multiple>
 				<option value="tshirt">T-shirt</option>
 				<option value="jeans">Jeans</option>
 				<option value="shoes">Chaussures</option>
 				<option value="short">Short</option>
 				<option value="cap">Casquette</option>
 				<option value="pull">Pull</option>
+				<option value="pull">P</option>
 			</select>
-			<br>
+
+			<br><br>
 
 			<button type="submit">Ajouter</button>
 

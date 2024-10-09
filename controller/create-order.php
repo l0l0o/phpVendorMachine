@@ -5,7 +5,9 @@ require_once '../model/Order.php';
 session_start();
 
 try {
-
+	if (!is_array($_POST['products']) || count($_POST['products']) < 1 || $_POST['products'] === NULL) {
+		throw new Exception('Votre panier est vide !');
+	}
 	$customerName = $_POST['customerName'];
 	$products = $_POST['products'];
 

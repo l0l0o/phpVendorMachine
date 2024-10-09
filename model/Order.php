@@ -23,6 +23,7 @@ class Order {
     private ?string $ShippingAddress;
     private ?string $ShippingCountry;
     private array $AuthorizedCountries;
+    private bool $isThereItem = false;
     
     
     private string $CustomerName;
@@ -31,12 +32,19 @@ class Order {
 
     public function __construct(string $CustomerName, array $productList)
     {
+        if (!is_array($productList) || count($productList) < 1 || $productList === NULL) {
+            throw new Exception('Votre panier est vide !');
+        }
+        if (!$this->isValidInput($CustomerName)) {
+            throw new Exception('Votre nom n\'est pas correct.<br>');
+        }
         if (array_search("$CustomerName", Order::$BLACKLISTED_CUSTOMERS )) {
             throw new Exception('Le vol n\'est pas la solution.');
         }
         if (count($productList)> Order::$MAX_PRODUCTS_BY_ORDER){
             throw new Exception('Je sais que c\'est surprenant mais on ne peut pas gérer de commandes de plus de 5 produits.');
         }
+
         $this->Status = Order::$CART_STATUS;
         $this->CreatedAt = new DateTime();
         $this->Id = rand();
@@ -53,6 +61,9 @@ class Order {
     }
 
     public function addProduct(string $productName) {
+        if (!$this->isValidInput($productName)) {
+            throw new Exception("Cet article n'existe pas.<br>");
+        }
         if ($this->Status != Order::$CART_STATUS) {
             throw new Exception("Vous ne pouvez pas passer de commande pour le moment<br>.");
         }
@@ -62,6 +73,7 @@ class Order {
         }
 
         array_push($this->Products, "{$productName}");
+        $this->isThereItem = true;
         $this->TotalPrice = $this->calculateTotalCart();
 
         echo "Votre panier contient :<br>";
@@ -80,6 +92,9 @@ class Order {
     public function deleteProduct(string $productName) {
         if (($key = array_search($productName, $this->Products)) !== false) {
             unset($this->Products[$key]);
+        }
+        if (count($this->Products) < 1) {
+            $this->isThereItem = false;
         }    
         $ProductsAsString = implode(', ', $this->Products);
         $this->TotalPrice = $this->calculateTotalCart();
@@ -87,7 +102,20 @@ class Order {
         echo "Liste des produits : {$ProductsAsString}<br><br>";
     }
 
-    public function chooseLocationAdress($city, $address, $country) {
+    public function chooseLocationAdress($address, $city, $country) {
+        if (!$this->isValidInput($address)) {
+            throw new Exception('Votre adresse n\'est pas correct.<br>');
+        }        
+        if (!$this->isValidInput($city)) {
+            throw new Exception('Votre ville n\'est pas correct.<br>');
+        }        
+        if (!$this->isValidInput($country)) {
+            throw new Exception('Votre pays n\'est pas correct.<br>');
+        }
+
+        if (!$this->isThereItem) {
+            throw new Exception("Vous ne pouvez pas passer de commande pour le moment<br>.");
+        }        
         if ($this->Status != Order::$CART_STATUS) {
             throw new Exception("Vous ne pouvez pas passer de commande pour le moment<br>.");
         }
@@ -125,6 +153,13 @@ class Order {
             throw new Exception("Votre paiement a été refusé.");
         }
         echo "Paiement réussi ! Votre commande est en cours de préparation.";
+    }
+
+    function isValidInput($input) {
+        // Regex : vérifie que la chaîne n'est pas vide et contient au moins 2 caractères
+        $pattern = '/^.{2,}$/';
+    
+        return preg_match($pattern, $input);
     }
 }
 
