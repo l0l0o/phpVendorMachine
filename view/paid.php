@@ -1,7 +1,9 @@
 <?php require_once('../view/partials/header.php'); ?>
 	
 	<main>
-		<p>La commande a été créée avec succès</p>
+		<p>Votre commande a été payée (je crois). On revient vers
+			vous plus tard pour vous dire si c'est ok ou pas. 
+		</p>
 	</main>
 
 

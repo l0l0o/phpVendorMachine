@@ -1,27 +1,23 @@
-<?php require_once '../partials/header.php' ?>
+<?php require_once('../view/partials/header.php'); ?>
+<main>
 
-	<main>	
 		<form method="POST" action="../controller/create-order.php">
 
 			<label for="customerName">Nom du client</label>
-			<br>
 			<input type="text" id="customerName" name="customerName" required>
-
-			<br><br>
+			<br>
 
 			<label for="product">Produit</label>
-			<br>
-			<select id="products[]" name="products[]" multiple>
+
+			<select id="product" name="products[]" multiple>
 				<option value="tshirt">T-shirt</option>
 				<option value="jeans">Jeans</option>
 				<option value="shoes">Chaussures</option>
 				<option value="short">Short</option>
 				<option value="cap">Casquette</option>
 				<option value="pull">Pull</option>
-				<option value="pull">P</option>
 			</select>
-
-			<br><br>
+			<br>
 
 			<button type="submit">Ajouter</button>
 
@@ -29,5 +25,4 @@
 
 	</main>
 
-	</body>
-</html>
+<?php require_once('../view/partials/footer.php'); ?>

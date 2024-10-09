@@ -1,6 +1,5 @@
 <?php
 
-
 session_start();
 
 if (!isset($_SESSION['order'])) {
@@ -8,4 +7,4 @@ if (!isset($_SESSION['order'])) {
     return;
 }
 
-require_once '../view/set-shipping-address.php';
+require_once '../view/pay.php';

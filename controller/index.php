@@ -1,7 +1,8 @@
 <?php
 
-//créer un formulaire HTML sur cette page
-//qui permet de créer une commande
-//et envoie les donnees sur un controller
+class IndexController {
+    public function index() {
+        require_once '../view/home.php';
+    }
+}
 
-require_once "../view/home.php";

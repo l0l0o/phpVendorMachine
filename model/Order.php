@@ -1,9 +1,7 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 
 class Order {
+
 	public static $CART_STATUS = "CART";
 	public static $SHIPPING_ADDRESS_SET_STATUS = "SHIPPING_ADDRESS_SET";
 	public static $SHIPPING_METHOD_SET_STATUS = "SHIPPING_METHOD_SET";
@@ -14,150 +12,129 @@ class Order {
 	public static $AUTORIZED_SHIPPING_COUNTRIES = ['France', 'Belgique', 'Luxembourg'];
 	public static $AVAILABLE_SHIPPING_METHODS = ['Chronopost Express', 'Point relais', 'Domicile'];
 	public static $PAID_SHIPPING_METHOD = 'Chronopost Express';
+	public static $PAID_SHIPPING_METHODS_COST = 5;
 
-    private array $Products;
-    private float $TotalPrice;
-    private string $Id;
-    private ?string $ShippingMethod;
-    private ?string $ShippingCity;
-    private ?string $ShippingAddress;
-    private ?string $ShippingCountry;
-    private array $AuthorizedCountries;
-    private bool $isThereItem = false;
-    
-    
-    private string $CustomerName;
-    private DateTime $CreatedAt;    
-    private string $Status;
+	private array $products;
 
-    public function __construct(string $CustomerName, array $productList)
-    {
-        if (!is_array($productList) || count($productList) < 1 || $productList === NULL) {
-            throw new Exception('Votre panier est vide !');
-        }
-        if (!$this->isValidInput($CustomerName)) {
-            throw new Exception('Votre nom n\'est pas correct.<br>');
-        }
-        if (array_search("$CustomerName", Order::$BLACKLISTED_CUSTOMERS )) {
-            throw new Exception('Le vol n\'est pas la solution.');
-        }
-        if (count($productList)> Order::$MAX_PRODUCTS_BY_ORDER){
-            throw new Exception('Je sais que c\'est surprenant mais on ne peut pas gérer de commandes de plus de 5 produits.');
-        }
+	private string $customerName;
 
-        $this->Status = Order::$CART_STATUS;
-        $this->CreatedAt = new DateTime();
-        $this->Id = rand();
+	private float $totalPrice;
 
-        $this->Products = $productList;
-        $this->CustomerName = $CustomerName;
-        $this->TotalPrice = count($productList)*Order::$UNIQUE_PRODUCT_PRICE;  
-    }
+	private int $id;
+	private DateTime $createdAt;
 
-    private function calculateTotalCart(): int {
-        return count($this->Products) * Order::$UNIQUE_PRODUCT_PRICE;
-    }
+	private string $status;
 
-    public function addProduct(string $productName) {
-        if (!$this->isValidInput($productName)) {
-            throw new Exception("Cet article n'existe pas.<br>");
-        }
-        if ($this->Status != Order::$CART_STATUS) {
-            throw new Exception("Vous ne pouvez pas passer de commande pour le moment<br>.");
-        }
+	private ?string $shippingMethod;
 
-        if ((array_search($productName, $this->Products)) == true) {
-            throw new Exception("Le produit : {$productName} est déjà dans votre panier.<br>");
-        }
+	private ?string $shippingCity;
 
-        array_push($this->Products, "{$productName}");
-        $this->isThereItem = true;
-        $this->TotalPrice = $this->calculateTotalCart();
+	private ?string $shippingAddress;
 
-        echo "Votre panier contient :<br>";
+	private ?string $shippingCountry;
 
-        for ($i = 0; $i < count($this->Products); $i++) {
-            echo $this->Products[$i];
-            if ($i !== count($this->Products) - 1){
-                echo ", ";
-            }
-        }
-        echo "<br>";
+	public function __construct(string $customerName, array $products) {
 
-        echo "Panier : {$this->TotalPrice} €.<br><br>";
-    }
+		if (count($products) > Order::$MAX_PRODUCTS_BY_ORDER) {
+			throw new Exception("Vous ne pouvez pas commander plus de " . Order::$MAX_PRODUCTS_BY_ORDER . " produits");
+		}
 
-    public function deleteProduct(string $productName) {
-        if (($key = array_search($productName, $this->Products)) !== false) {
-            unset($this->Products[$key]);
-        }
-        if (count($this->Products) < 1) {
-            $this->isThereItem = false;
-        }    
-        $ProductsAsString = implode(', ', $this->Products);
-        $this->TotalPrice = $this->calculateTotalCart();
+		if (in_array($customerName, Order::$BLACKLISTED_CUSTOMERS)) {
+			throw new Exception("Vous êtes blacklisté");
+		}
 
-        echo "Liste des produits : {$ProductsAsString}<br><br>";
-    }
+		$this->status = Order::$CART_STATUS;
+		$this->createdAt = new DateTime();
+		$this->id = rand();
+		$this->products = $products;
+		$this->customerName = $customerName;
+		$this->totalPrice = count($products) * Order::$UNIQUE_PRODUCT_PRICE;
+	}
 
-    public function chooseLocationAdress($address, $city, $country) {
-        if (!$this->isValidInput($address)) {
-            throw new Exception('Votre adresse n\'est pas correct.<br>');
-        }        
-        if (!$this->isValidInput($city)) {
-            throw new Exception('Votre ville n\'est pas correct.<br>');
-        }        
-        if (!$this->isValidInput($country)) {
-            throw new Exception('Votre pays n\'est pas correct.<br>');
-        }
 
-        if (!$this->isThereItem) {
-            throw new Exception("Vous ne pouvez pas passer de commande pour le moment<br>.");
-        }        
-        if ($this->Status != Order::$CART_STATUS) {
-            throw new Exception("Vous ne pouvez pas passer de commande pour le moment<br>.");
-        }
-        if ((array_search($country, Order::$AUTORIZED_SHIPPING_COUNTRIES)) === false) {
-            throw new Exception("Désolé, nos produits sont seulement disponibles en France, en Belgique et au Luxembourg.<br>");
-        }
-        $ShippingCity = "$city";
-        $ShippingAddress = "$address";
-        $ShippingCountry = "$country";
-        $this->Status = "SHIPPING_ADRESS_SET";
-        echo "Adresse de livraison : {$ShippingAddress}, {$ShippingCity}, {$ShippingCountry}<br><br>";
-        }
 
-    public function chooseShippingMethod($shippingMethod) {
-        if(!in_array($shippingMethod, Order::$AVAILABLE_SHIPPING_METHODS)){
-            throw new Exception('Veuillez choisir une méthode de livraison.<br><br>');
-        }
-        if($this->ShippingAddress == NULL) {
-            throw new Exception("Veuillez renseigner votre adresse.<br><br>");
-        }
-        $this->ShippingMethod = $shippingMethod;
-        echo "Méthode de livraison : {$this->ShippingMethod}<br>";
+	private function calculateTotalCart():  float {
+		return count($this->products) * Order::$UNIQUE_PRODUCT_PRICE;
+	}
 
-        if ($this->ShippingMethod === order::$PAID_SHIPPING_METHOD ) {
-            $this->TotalPrice += Order::$UNIQUE_PRODUCT_PRICE;
-            echo "Frais de livraison CHRONOPOST: 5 EUROS<br>{$this->TotalPrice}<br><br>";
-        }
-    }
 
-    public function payOrder($amount) {
-        if($this->ShippingAddress == NULL) {
-            throw new Exception("Veuillez renseigner votre adresse.<br><br>");
-        }
-        if ($amount<$this->TotalPrice) {
-            throw new Exception("Votre paiement a été refusé.");
-        }
-        echo "Paiement réussi ! Votre commande est en cours de préparation.";
-    }
+	public function removeProduct(string $product) {
+		$this->removeProductFromList($product);
+		$this->totalPrice = $this->calculateTotalCart();
 
-    function isValidInput($input) {
-        // Regex : vérifie que la chaîne n'est pas vide et contient au moins 2 caractères
-        $pattern = '/^.{2,}$/';
-    
-        return preg_match($pattern, $input);
-    }
+		$productsAsString = implode(',', $this->products);
+		echo "Liste des produits : {$productsAsString}</br></br>";
+	}
+
+	private function removeProductFromList(string $product) {
+		if (($key = array_search($product, $this->products)) !== false) {
+			unset($this->products[$key]);
+		}
+	}
+
+
+	public function addProduct(string $product): void {
+
+		if ($this->isProductInCart($product)) {
+			throw new Exception('Le produit existe déjà dans le panier');
+		}
+
+		if ($this->status === Order::$CART_STATUS) {
+			throw new Exception('Vous ne pouvez plus ajouter de produits');
+		}
+
+		if (count($this->products) >= Order::$MAX_PRODUCTS_BY_ORDER) {
+			throw new Exception('Vous ne pouvez pas commander plus de ' . Order::$MAX_PRODUCTS_BY_ORDER .' produits');
+		}
+
+		$this->products[] = $product;
+		$this->totalPrice = $this->calculateTotalCart();
+	}
+
+	private function isProductInCart(string $product): bool {
+		return in_array($product, $this->products);
+	}
+
+	public function setShippingAddress(string $shippingCity, string $shippingAddress, string $shippingCountry): void {
+		if ($this->status !== Order::$CART_STATUS) {
+			throw new Exception(message: 'Vous ne pouvez plus modifier l\'adresse de livraison');
+		}
+
+		if (!in_array($shippingCountry, Order::$AUTORIZED_SHIPPING_COUNTRIES)) {
+			throw new Exception(message: 'Vous ne pouvez pas commander dans ce pays');
+		}
+
+		$this->shippingAddress = $shippingAddress;
+		$this->shippingCity = $shippingCity;
+		$this->shippingCountry = $shippingCountry;
+		$this->status = Order::$SHIPPING_ADDRESS_SET_STATUS;
+	}
+
+	public function setShippingMethod(string $shippingMethod): void {
+		if ($this->status !== Order::$SHIPPING_ADDRESS_SET_STATUS) {
+			throw new Exception(message: 'Vous ne pouvez pas choisir de méthode avant d\'avoir renseigné votre adresse');
+		}
+
+		if (!in_array($shippingMethod, Order::$AVAILABLE_SHIPPING_METHODS)) {
+			throw new Exception(message: 'Méthode non valide');
+		}
+
+		if ($shippingMethod === Order::$PAID_SHIPPING_METHOD) {
+			$this->totalPrice = $this->totalPrice + Order::$PAID_SHIPPING_METHODS_COST;
+		}
+		$this->shippingMethod = $shippingMethod;
+		$this->status = Order::$SHIPPING_METHOD_SET_STATUS;
+	}
+
+
+	public function pay(): void {
+		if ($this->status !== Order::$SHIPPING_METHOD_SET_STATUS) {
+			throw new Exception(message: 'Vous ne pouvez pas payer avant d\'avoir renseigné la méthode de livraison');
+		}
+
+		$this->status = Order::$PAID_STATUS;
+	}
 }
+
+
 
