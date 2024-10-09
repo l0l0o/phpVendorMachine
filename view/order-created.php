@@ -1,13 +1,5 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>Commande créée</title>
-	</head>
-	<body>
+<?php require_once '../partials/header.php' ?>
 
-	<header>
-		<h1>Le Eshop au top</h1>
-	</header>
 	
 	<main>
 		<p>La commande a été créée avec succès</p>

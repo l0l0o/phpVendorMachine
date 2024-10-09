@@ -1,17 +1,6 @@
-<!DOCTYPE html>
+<?php require_once '../partials/header.php' ?>
 
-<html>
-	<head>
-		<title>MyShop</title>
-	</head>
-	<body>
-
-	<header>
-		<h1>MyShop</h1>
-	</header>
-	
-	<main>
-	
+	<main>	
 		<form method="POST" action="../controller/create-order.php">
 
 			<label for="customerName">Nom du client</label>

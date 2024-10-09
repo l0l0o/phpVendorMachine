@@ -51,9 +51,7 @@ class Order {
 
         $this->Products = $productList;
         $this->CustomerName = $CustomerName;
-        $this->TotalPrice = count($productList)*Order::$UNIQUE_PRODUCT_PRICE;
-
-        echo nl2br("<p>Bonjour {$this->CustomerName} !<br>Commande {$this->Id} créée.<br>Panier : {$this->TotalPrice} €.<br></p>");    
+        $this->TotalPrice = count($productList)*Order::$UNIQUE_PRODUCT_PRICE;  
     }
 
     private function calculateTotalCart(): int {
