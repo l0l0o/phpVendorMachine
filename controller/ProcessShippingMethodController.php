@@ -1,14 +1,16 @@
 <?php
 
 require_once './model/entity/Order.php'; 
+require_once './model/repository/OrderRepository.php';
 
 class ProcessShippingMethodController
 {
     public function processShippingMethod()
     {
-        session_start();
+        $orderRepository = new OrderRepository();
+        $order = $orderRepository->find();
 
-        if (!isset($_SESSION['order'])) {
+        if (!$order) {
             require_once './view/404.php';
             return;
         }
@@ -27,7 +29,7 @@ class ProcessShippingMethodController
           
             $order->setShippingMethod($shippingMethod);
 
-            $_SESSION['order'] = $order;
+            $orderRepository->persist($order);
 
             require_once './view/shipping-method-added.php';
 
