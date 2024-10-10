@@ -1,13 +1,15 @@
 <?php
 
+require_once './model/repository/OrderRepository.php';
 
 class PayController
 {
     public function pay()
     {
-        session_start();
+        $orderRepository = new OrderRepository();
+        $order = $orderRepository->find();
 
-        if (!isset($_SESSION['order'])) {
+        if (!$order) {
             require_once './view/404.php';
             return;
         }

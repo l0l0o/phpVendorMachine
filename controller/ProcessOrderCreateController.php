@@ -1,13 +1,12 @@
 <?php
 
-require_once './model/Order.php';
+require_once './model/entity/Order.php';
+require_once './model/repository/OrderRepository.php';
 
 
 class CreateOrderController {
 
 	public function createOrder() {
-		session_start();
-
 		try {
 
 			if (!isset($_POST['customerName']) || !isset($_POST['products'])) {
@@ -22,7 +21,8 @@ class CreateOrderController {
 
 			$order = new Order($customerName, $products);
 
-			$this->persistOrder($order);
+			$orderRepository = new OrderRepository();
+			$orderRepository->persist($order);
 
 			require_once './view/order-created.php';
 
@@ -34,9 +34,6 @@ class CreateOrderController {
 
 	}
 
-	function persistOrder(Order $order) {
-		$_SESSION['order'] = $order;
-	}
 
 }
 
