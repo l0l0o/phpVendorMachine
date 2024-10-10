@@ -1,10 +1,10 @@
-<?php require_once('../view/partials/header.php'); ?>
+<?php require_once('./view/partials/header.php'); ?>
 	
 	<main>
 		<p>Remplissez l'adresse de livraison : </p>
 
 
-		<form method="POST" action="../controller/process-shipping-address.php">
+		<form method="POST" action="http://localhost:8888/esd-oop-php/process-shipping-address">
 
 			<label for="shippingCountry">Pays de livraison</label>
 			<input type="text" id="shippingCountry" name="shippingCountry" required pattern="^[a-zA-Z0-9\s.-]{5,50}$" title="Le pays doit contenir entre 5 et 50 caractères et des espaces.">
@@ -22,4 +22,4 @@
 		</form>
 	</main>
 
-<?php require_once('../view/partials/footer.php'); ?>
+<?php require_once('./view/partials/footer.php'); ?>

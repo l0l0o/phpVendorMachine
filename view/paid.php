@@ -1,4 +1,4 @@
-<?php require_once('../view/partials/header.php'); ?>
+<?php require_once('./view/partials/header.php'); ?>
 	
 	<main>
 		<p>Votre commande a été payée (je crois). On revient vers
@@ -7,4 +7,4 @@
 	</main>
 
 
-	<?php require_once('../view/partials/footer.php'); ?>
+	<?php require_once('./view/partials/footer.php'); ?>

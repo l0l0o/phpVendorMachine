@@ -1,10 +1,10 @@
-<?php require_once('../view/partials/header.php'); ?>
+<?php require_once('./view/partials/header.php'); ?>
 	
 	<main>
 		<p>Choisissez la méthode livraison : </p>
 
 
-		<form method="POST" action="../controller/process-shipping-method.php">
+		<form method="POST" action="http://localhost:8888/esd-oop-php/process-shipping-method">
 
 		<label for="shippingMethod">Méthode de livraison</label>
 
@@ -20,4 +20,4 @@
 		</form>
 	</main>
 
-<?php require_once('../view/partials/footer.php'); ?>
+<?php require_once('./view/partials/footer.php'); ?>
