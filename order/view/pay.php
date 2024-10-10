@@ -1,4 +1,4 @@
-<?php require_once('./view/partials/header.php'); ?>
+<?php require_once('./order/view/partials/header.php'); ?>
 	
 	<main>
 		<p>Payer la commande (c'est même pas débité sur votre compte. Ou peut être que si. Mais faites confiance) </p>
@@ -13,4 +13,4 @@
 		</form>
 	</main>
 
-<?php require_once('./view/partials/footer.php'); ?>
+<?php require_once('./order/view/partials/footer.php'); ?>

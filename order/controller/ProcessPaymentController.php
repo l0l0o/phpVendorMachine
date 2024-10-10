@@ -1,7 +1,7 @@
 <?php
 
-require_once './model/entity/Order.php'; 
-require_once './model/repository/OrderRepository.php';
+require_once './order/model/entity/Order.php'; 
+require_once './order/model/repository/OrderRepository.php';
 
 class ProcessPaymentController
 {
@@ -12,7 +12,7 @@ class ProcessPaymentController
 		$order = $orderRepository->find();
 
 		if (!$order) {
-			require_once './view/404.php';
+			require_once './order/view/404.php';
 			return;
 		}
 
@@ -20,11 +20,11 @@ class ProcessPaymentController
 
 			$order->pay();
 			$orderRepository->persist($order);
-			require_once './view/paid.php';
+			require_once './order/view/paid.php';
 
 		} catch (Exception $e) {
 			$errorMessage = $e->getMessage();
-			require_once './view/order-error.php';
+			require_once './order/view/order-error.php';
 		}
 	}
 }

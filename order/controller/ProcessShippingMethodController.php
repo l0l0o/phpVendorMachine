@@ -1,7 +1,7 @@
 <?php
 
-require_once './model/entity/Order.php'; 
-require_once './model/repository/OrderRepository.php';
+require_once './order/model/entity/Order.php'; 
+require_once './order/model/repository/OrderRepository.php';
 
 class ProcessShippingMethodController
 {
@@ -11,17 +11,15 @@ class ProcessShippingMethodController
         $order = $orderRepository->find();
 
         if (!$order) {
-            require_once './view/404.php';
+            require_once './order/view/404.php';
             return;
         }
 
         try {
-            $order = $_SESSION['order'];
-
             if (!isset($_POST['shippingMethod'])) {
                 $errorMessage = "Merci de remplir les champs. J'ai pas fait tout ça pour rien.";
                 
-                require_once './view/order-error.php';
+                require_once './order/view/order-error.php';
                 return;
             }
 
@@ -31,11 +29,11 @@ class ProcessShippingMethodController
 
             $orderRepository->persist($order);
 
-            require_once './view/shipping-method-added.php';
+            require_once './order/view/shipping-method-added.php';
 
         } catch (Exception $e) {
             $errorMessage = $e->getMessage();
-            require_once './view/order-error.php';
+            require_once './order/view/order-error.php';
         }
     }
 }

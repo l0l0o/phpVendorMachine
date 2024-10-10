@@ -1,7 +1,7 @@
 <?php
 
-require_once './model/entity/Order.php'; 
-require_once './model/repository/OrderRepository.php';
+require_once './order/model/entity/Order.php'; 
+require_once './order/model/repository/OrderRepository.php';
 
 class ProcessShippingAddressController
 {
@@ -11,7 +11,7 @@ class ProcessShippingAddressController
         $order = $orderRepository->find();
 
         if (!$order) {
-            require_once './view/404.php';
+            require_once './order/view/404.php';
             return;
         }
 
@@ -24,7 +24,7 @@ class ProcessShippingAddressController
             ) {
                 $errorMessage = "Merci de remplir les champs. J'ai pas fait tout ça pour rien.";
                 
-                require_once './view/order-error.php';
+                require_once './order/view/order-error.php';
                 return;
             }
 
@@ -37,11 +37,11 @@ class ProcessShippingAddressController
             $orderRepository->persist($order);
 
 
-            require_once './view/shipping-address-added.php';
+            require_once './order/view/shipping-address-added.php';
 
         } catch (Exception $e) {
             $errorMessage = $e->getMessage();
-            require_once './view/order-error.php';
+            require_once './order/view/order-error.php';
         }
     }
 }

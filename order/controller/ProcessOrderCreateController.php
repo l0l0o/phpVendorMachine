@@ -1,7 +1,7 @@
 <?php
 
-require_once './model/entity/Order.php';
-require_once './model/repository/OrderRepository.php';
+require_once './order/model/entity/Order.php';
+require_once './order/model/repository/OrderRepository.php';
 
 
 class CreateOrderController {
@@ -12,7 +12,7 @@ class CreateOrderController {
 			if (!isset($_POST['customerName']) || !isset($_POST['products'])) {
 				$errorMessage = "Merci de remplir les champs. J'ai pas fait tout ça pour rien.";
 				
-				require_once './view/order-error.php';
+				require_once './order/view/order-error.php';
 				return;
 			}
 
@@ -24,11 +24,11 @@ class CreateOrderController {
 			$orderRepository = new OrderRepository();
 			$orderRepository->persist($order);
 
-			require_once './view/order-created.php';
+			require_once './order/view/order-created.php';
 
 		} catch (Exception $e) {
 			$errorMessage = $e->getMessage();
-			require_once './view/order-error.php';
+			require_once './order/view/order-error.php';
 		}
 
 

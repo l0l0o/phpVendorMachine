@@ -1,5 +1,5 @@
 <?php
-require_once './model/repository/OrderRepository.php';
+require_once './order/model/repository/OrderRepository.php';
 
 
 class SetShippingAddressController
@@ -10,10 +10,10 @@ class SetShippingAddressController
         $order = $orderRepository->find();
 
         if (!$order) {
-            require_once './view/404.php';
+            require_once './order/view/404.php';
             return;
         }
 
-        require_once './view/set-shipping-address.php';
+        require_once './order/view/set-shipping-address.php';
     }
 }
