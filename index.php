@@ -12,6 +12,9 @@ require_once('./order/controller/ProcessShippingMethodController.php');
 require_once('./order/controller/SetShippingAddressController.php');
 require_once('./order/controller/SetShippingMethodController.php');
 
+require_once('./product/controller/AddProductController.php');
+
+
 // Récupère l'url actuelle et supprime le chemin de base
 // c'est à dire : http://localhost:8888/esd-oop-php/public/
 // donc cela ne garde que la fin de l'url
@@ -41,33 +44,37 @@ if ($endUri === "pay") {
     return;
 }
 
-
 if ($endUri === "process-payment") {
-    $payController = new ProcessPaymentController();
-    $payController->processPayment();
+    $ProcessPaymentController = new ProcessPaymentController();
+    $ProcessPaymentController->processPayment();
     return;
 }
 
 if ($endUri === "process-shipping-address") {
-    $payController = new ProcessShippingAddressController();
-    $payController->processShippingAddress();
+    $ProcessShippingAddressController = new ProcessShippingAddressController();
+    $ProcessShippingAddressController->processShippingAddress();
     return;
 }
 
 if ($endUri === "process-shipping-method") {
-    $payController = new ProcessShippingMethodController();
-    $payController->processShippingMethod();
+    $ProcessShippingMethodController = new ProcessShippingMethodController();
+    $ProcessShippingMethodController->processShippingMethod();
     return;
 }
 
 if ($endUri === "set-shipping-address") {
-    $payController = new SetShippingAddressController();
-    $payController->setShippingAddress();
+    $SetShippingAddressController = new SetShippingAddressController();
+    $SetShippingAddressController->setShippingAddress();
     return;
 }
 
 if ($endUri === "set-shipping-method") {
-    $payController = new SetShippingMethodController();
-    $payController->setShippingMethod();
+    $SetShippingMethodController = new SetShippingMethodController();
+    $SetShippingMethodController->setShippingMethod();
     return;
+}
+
+if ($endUri === "add-product") {
+    $addProduct = new AddProductController();
+    $addProduct->AddProduct();
 }
