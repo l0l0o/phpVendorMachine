@@ -5,4 +5,4 @@
 	</main>
 
 
-	<?php require_once('./order/view/partials/footer.php'); ?>
+	<?php require_once('./common/view/partials/footer.php'); ?>

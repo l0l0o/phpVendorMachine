@@ -134,6 +134,10 @@ class Order {
 
 		$this->status = Order::$PAID_STATUS;
 	}
+
+	public function createOrder() {
+		
+	}
 }
 
 

@@ -42,4 +42,14 @@ class ProductRepository {
         array_values($allProducts);
     }
 
+    public function findIds(array $productsId, array $array): array {
+        $productsToAdd = [];
+        foreach ($productsId as $productId) {
+            $productsToAdd[] = array_filter($array, function($product) use($productId) {
+                return $product->getId() === (int) $productId;
+            });
+        }
+        return $productsToAdd;
+    }
+
 }

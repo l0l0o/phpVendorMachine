@@ -19,4 +19,4 @@ require_once('./common/view/partials/header.php');
     <?php endif; ?>
 <?php endforeach; ?>
 
-<?php require_once('./order/view/partials/footer.php'); ?>
+<?php require_once('./common/view/partials/footer.php'); ?>
