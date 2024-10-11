@@ -30,4 +30,16 @@ class ProductRepository {
         return $_SESSION['products'];
     }
 
+    public function deleteProduct($id) {
+        $allProducts = $this->getAllProducts();
+        
+        // Filtrer le tableau pour exclure l'objet avec le titre spécifié
+        $allProducts = array_filter($allProducts, function($products) use ($id) {
+            return $products->getId() !== $id;
+        });
+
+        // Réindexer le tableau (optionnel)
+        array_values($allProducts);
+    }
+
 }

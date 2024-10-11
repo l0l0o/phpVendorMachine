@@ -8,9 +8,6 @@
 	<header>
 		<h1>Le Eshop au top</h1>
 		<br>
-		<h4>Commander un produit</h4>
-
-
 		<nav>
 			<ul>
 				<li><a href="http://localhost:8888/esd-oop-php/add-product">Poster</a></li>
@@ -18,8 +15,9 @@
 				<li><a href="http://localhost:8888/esd-oop-php/set-shipping-address">Renseigner l'adresse de livraion</a></li>
 				<li><a href="http://localhost:8888/esd-oop-php/set-shipping-method">Renseigner la méthode de livraison</a></li>
 				<li><a href="http://localhost:8888/esd-oop-php/pay">Payer</a></li>
-
-
 			</ul>
-		</nav>
+		</nav><br>
+
+		<h4>Ajouter un produit</h4>
+
 	</header>

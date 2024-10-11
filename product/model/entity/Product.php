@@ -3,7 +3,9 @@
 class Product {
     public static int $ITEM_PRICE_DEFAULT = 2;
     public static int $ITEM_PRICE_MIN = 1;
-    public static int $ITEM_PRICE_MAX = 500;
+    public static int $ITEM_PRICE_MAX = 500;    
+    public static int $ITEM_TITLE_MIN = 3;
+    public static int $ITEM_TITLE_MAX = 100;
 
     private int $Id;
     private string $Title;

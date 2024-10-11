@@ -1,8 +1,8 @@
 <?php require_once('./common/view/partials/header.php'); ?>
 	
-	<main>
-		<p>Vous avez mis votre produit en vente.</p>
-	</main>
+<main>
+    <?php echo "<p>{$productToDeleteTitle} a bien été supprimé.</p>" ?> 
+</main>
 
 
 	<?php require_once('./product/view/partials/footer.php'); ?>

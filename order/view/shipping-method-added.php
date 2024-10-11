@@ -1,4 +1,4 @@
-<?php require_once('./order/view/partials/header.php'); ?>
+<?php require_once('./common/view/partials/header.php'); ?>
 	
 	<main>
 		<p>La méthode de livraison a bien été enregistrée</p>
