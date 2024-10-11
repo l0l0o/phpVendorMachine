@@ -11,6 +11,10 @@ class Product {
     private ?string $Description;
     private bool $IsActive;
 
+    public function getId() {
+        return $this->Id;
+    }
+
     public function getTitle() {
         return $this->Title;
     }
@@ -19,7 +23,7 @@ class Product {
     }
 
     public function getPrice() {
-        return $this->Title;
+        return $this->Price;
     }
     public function setPrice(string $price) {
         $this->Price = $price;
@@ -32,15 +36,16 @@ class Product {
         $this->Description = $description;
     }
 
-    public function getId() {
-        return $this->Id;
+    public function getIsActive() {
+        return $this->IsActive;
     }
 
 
-    public function __construct(string $title, int $price, string $description, bool $active)
+
+    public function __construct(string $title, ?int $price, string $description, bool $active)
     {
         if(!$this->isTitleValid($title)) {
-			throw new Exception(message: 'Le titre doit faire au moins 2 caractères.');
+			throw new Exception(message: 'Le titre doit faire entre 3 et 100 caractères.');
         }
 
         if($price === null || $price === ""){
@@ -62,10 +67,10 @@ class Product {
         $this->IsActive = $active;
     }
 
-    private function isTitleValid($testString): bool {
-        $pattern = '/^.{2,}$/';
-        
-        if (preg_match($pattern, $testString)) {
+    private function isTitleValid($title): bool {
+        $pattern = '/^.{3,100}$/';
+
+        if (preg_match($pattern, $title)) {
             return true;
         }
         return false;

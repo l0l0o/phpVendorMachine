@@ -1,5 +1,5 @@
 <?php 
-require_once './product/model/entity/Order.php';
+require_once './product/model/entity/Product.php';
 
 class ProductRepository {
 
@@ -13,16 +13,21 @@ class ProductRepository {
     }
 
     public function persist(Product $product): ?Product {
-        $_SESSION['product'] = $product;
+        if(!isset($_SESSION['products'])){
+            $_SESSION['products'] = [];
+        }
+
+        array_push($_SESSION['products'], $product);
+
         return $product;
     }
 
-    public function find() {
-        if(!isset($_SESSION['product'])) {
-            return null;
+    public function getAllProducts() {
+        if(!isset($_SESSION['products'])) {
+            return [];
         }
 
-        return $_SESSION['product'];
+        return $_SESSION['products'];
     }
 
 }

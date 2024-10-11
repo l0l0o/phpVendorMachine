@@ -13,6 +13,7 @@
 
 		<nav>
 			<ul>
+				<li><a href="http://localhost:8888/esd-oop-php/add-product">Poster</a></li>
 				<li><a href="http://localhost:8888/esd-oop-php/">Commander</a></li>
 				<li><a href="http://localhost:8888/esd-oop-php/set-shipping-address">Renseigner l'adresse de livraion</a></li>
 				<li><a href="http://localhost:8888/esd-oop-php/set-shipping-method">Renseigner la méthode de livraison</a></li>
